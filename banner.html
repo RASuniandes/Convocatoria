@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner RAS Uniandes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .banner {
+            width: 600px;
+            height: 250px;
+            background: linear-gradient(135deg, #000015 0%, #5F2167 50%, #C1003A 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(250, 174, 31, 0.3);
+        }
+        
+        /* Animated circuit pattern background */
+        .circuit-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(90deg, #FAAE1F 1px, transparent 1px),
+                linear-gradient(0deg, #FAAE1F 1px, transparent 1px);
+            background-size: 25px 25px;
+            animation: circuitMove 15s linear infinite;
+        }
+        
+        @keyframes circuitMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(25px, 25px); }
+        }
+        
+        /* Content container */
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            gap: 20px;
+        }
+        
+        /* Logo section */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+        
+        .ieee-logo {
+            height: 60px;
+            filter: brightness(1.1);
+        }
+        
+        .ras-logo {
+            height: 50px;
+            filter: drop-shadow(0 5px 15px rgba(250, 174, 31, 0.3));
+        }
+        
+        /* Text content */
+        .text-content {
+            flex: 1;
+            color: white;
+        }
+        
+        .title {
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #FAAE1F, #FFCD24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0 0 5px 0;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            color: #FDC025;
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        .description {
+            font-size: 14px;
+            line-height: 1.3;
+            margin: 0 0 15px 0;
+            color: #ffffff;
+        }
+        
+        .careers {
+            font-size: 12px;
+            color: #FAAE1F;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        /* CTA section */
+        .cta-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #FAAE1F, #FFCD24);
+            color: #000015;
+            padding: 12px 20px;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(250, 174, 31, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(250, 174, 31, 0.4);
+        }
+        
+        .semester-label {
+            font-size: 10px;
+            color: #FDC025;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Robot icon */
+        .robot-accent {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            opacity: 0.3;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-65%); }
+        }
+        
+        /* Glow effects */
+        .glow-accent {
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(250, 174, 31, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="circuit-pattern"></div>
+        <div class="glow-accent"></div>
+        
+        <div class="banner-content">
+            <div class="logo-section">
+                <img src="https://github.com/RASuniandes/Convocatoria/raw/main/Imgs/RAS-LIGHTNormal.png" alt="IEEE RAS" class="ieee-logo">
+                <img src="https://github.com/RASuniandes/Convocatoria/raw/main/Imgs/Cabra-Color.svg" alt="RAS Uniandes" class="ras-logo">
+            </div>
+            
+            <div class="text-content">
+                <h1 class="title">RAS UNIANDES</h1>
+                <p class="subtitle">Robotics & Automation Society</p>
+                <p class="description">
+                    Únete al desarrollo de <strong>SWARM</strong> - Robótica logística autónoma del futuro
+                </p>
+                <p class="careers">IMEC • IELEC • ISIS • Todas las carreras</p>
+            </div>
+            
+            <div class="cta-section">
+                <a href="#" class="cta-button">ÚNETE</a>
+                <p class="semester-label">2025-2</p>
+            </div>
+        </div>
+        
+        <div class="robot-accent">🤖</div>
+    </div>
+    
+    <script>
+        // Add click functionality
+        document.querySelector('.banner').addEventListener('click', function() {
+            // This would redirect to the forms link
+            console.log('Redirecting to: https://forms.office.com/r/YVkTWmcZNP');
+            // window.open('https://forms.office.com/r/YVkTWmcZNP', '_blank');
+        });
+    </script>
+</body>
+</html>
