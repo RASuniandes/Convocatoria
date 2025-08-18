@@ -432,8 +432,207 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Deadline banner */
+        .deadline-banner{
+        position: sticky; top: 64px; z-index: 900; /* debajo del nav fijo */
+        background: linear-gradient(90deg, var(--gold-primary), var(--gold-accent));
+        color: var(--black-primary);
+        border-bottom: 1px solid rgba(0,0,0,.15);
+        }
+        @media (max-width: 768px){ .deadline-banner{ top: 60px; } }
+
+        .deadline-inner{
+        max-width: 1200px; margin: 0 auto; padding: .8rem 2rem;
+        display: flex; gap: 1rem; justify-content: space-between; align-items: center;
+        font-family: 'Orbitron', monospace; font-weight: 700;
+        }
+        .deadline-text strong{ text-decoration: underline; }
+        .countdown{
+        background: var(--white); color: var(--black-primary);
+        padding: .4rem .8rem; border-radius: 999px; font-variant-numeric: tabular-nums;
+        box-shadow: 0 6px 16px rgba(0,0,0,.12);
+        }
+
+        /* Overlay cuando cierra */
+        .closed-overlay{
+        position: fixed; inset: 0; display: none; place-items: center;
+        backdrop-filter: blur(6px);
+        background: rgba(0,0,21,.65); z-index: 2000;
+        }
+        .closed-overlay.active{ display: grid; }
+        .closed-card{
+        max-width: 640px; margin: 2rem; text-align: center;
+        background: linear-gradient(135deg, rgba(95, 33, 103, 0.25), rgba(193, 0, 58, 0.25));
+        border: 1px solid var(--gold-primary); border-radius: 20px; padding: 2rem;
+        box-shadow: 0 20px 60px rgba(250,174,31,.25);
+        }
+        .closed-card h3{
+        font-family: 'Orbitron', monospace; color: var(--gold-primary); font-size: 1.6rem; margin-bottom: .75rem;
+        }
+        .closed-card p{ line-height: 1.7; }
+        .small-hint{ opacity:.9; margin-top: .75rem; font-size: .95rem; }
+
+        /* Estado brick: desactiva interacciones */
+        .bricked *{
+        pointer-events: none !important;
+        }
+        .bricked #closed-overlay, .bricked .closed-overlay{
+        pointer-events: auto !important; /* el overlay sí recibe eventos */
+        }
+
+
     </style>
 </head>
+
+<script>
+(function () {
+  // === CONFIG ===
+  const DEADLINE_ISO = '2025-08-20T23:59:59-05:00'; // Hora Bogotá
+  const BANNER_SELECTOR = '#deadline-banner';
+  const COUNTDOWN_SELECTOR = '#countdown';
+  const OVERLAY_SELECTOR = '#closed-overlay';
+  const CTA_SELECTOR = '.cta-button';
+
+  // === HELPERS ===
+  function ensureBanner() {
+    let banner = document.querySelector(BANNER_SELECTOR);
+    if (!banner) {
+      // Si no existe, lo creamos y lo insertamos tras <nav> o al inicio del body
+      const after = document.querySelector('nav') || document.body.firstElementChild;
+      banner = document.createElement('section');
+      banner.id = 'deadline-banner';
+      banner.className = 'deadline-banner';
+      banner.setAttribute('data-close-at', DEADLINE_ISO);
+      banner.innerHTML = `
+        <div class="deadline-inner">
+          <span class="deadline-text">📣 Convocatoria se cierra el <strong>27 de agosto de 2025</strong></span>
+          <span class="countdown" id="countdown">Cargando…</span>
+        </div>`;
+      if (after && after.parentNode) after.parentNode.insertBefore(banner, after.nextSibling);
+      else document.body.prepend(banner);
+    }
+    // Si ya existía pero no tiene la fecha, se la ponemos
+    if (!banner.getAttribute('data-close-at')) banner.setAttribute('data-close-at', DEADLINE_ISO);
+    return banner;
+  }
+
+  function ensureOverlay() {
+    let overlay = document.querySelector(OVERLAY_SELECTOR);
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'closed-overlay';
+      overlay.className = 'closed-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.innerHTML = `
+        <div class="closed-card" role="dialog" aria-labelledby="closed-title" aria-describedby="closed-desc">
+          <h3 id="closed-title">🙌 ¡Gracias por aplicar!</h3>
+          <p id="closed-desc">
+            La convocatoria <strong>2025-2</strong> ha cerrado.
+            Revisaremos las aplicaciones y contactaremos a las personas preseleccionadas por correo.
+          </p>
+          <p class="small-hint">Síguenos en nuestras redes para próximas convocatorias.</p>
+        </div>`;
+      document.body.appendChild(overlay);
+    }
+    return overlay;
+  }
+
+  function parseDeadline(str) {
+    // Acepta ISO con zona (-05:00) y hace fallback a UTC si el motor no la interpreta
+    const d = new Date(str);
+    if (!isNaN(d.getTime())) return d;
+
+    // Fallback robusto: construir a partir de componentes locales (YYYY-MM-DDTHH:mm:ss-05:00)
+    const m = str.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([+-]\d{2}):?(\d{2})$/);
+    if (m) {
+      const [ , Y, Mo, Da, H, Mi, S, offH, offM ] = m;
+      // Convertimos a UTC corrigiendo offset
+      const offMinutes = parseInt(offH,10)*60 + (parseInt(offM,10) * Math.sign(parseInt(offH,10)));
+      const local = new Date(Date.UTC(+Y, +Mo-1, +Da, +H, +Mi, +S));
+      return new Date(local.getTime() - offMinutes*60*1000);
+    }
+    // Último recurso: tratarlo como local
+    return new Date(str.replace(/([+-]\d{2}):?(\d{2})$/, ''));
+  }
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function brickUI(overlay, banner, countdownEl) {
+    // Deshabilitar CTAs
+    document.querySelectorAll(CTA_SELECTOR).forEach(btn => {
+      btn.setAttribute('aria-disabled','true');
+      btn.style.filter = 'grayscale(1) opacity(.6)';
+      btn.style.cursor = 'not-allowed';
+      btn.addEventListener('click', e => e.preventDefault());
+    });
+
+    // Overlay
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+
+    // Bloquear scroll e interacciones
+    document.body.classList.add('bricked');
+    document.body.style.overflow = 'hidden';
+
+    // Banner
+    const txt = banner.querySelector('.deadline-text');
+    if (txt) txt.innerHTML = '🚫 <strong>Convocatoria cerrada</strong>';
+    if (countdownEl) {
+      countdownEl.textContent = 'Convocatoria cerrada';
+      countdownEl.style.background = 'transparent';
+    }
+  }
+
+  // === MAIN ===
+  // Aseguramos DOM listo incluso si insertamos cosas
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', main);
+  } else {
+    main();
+  }
+
+  function main(){
+    const banner = ensureBanner();
+    const countdownEl = document.querySelector(COUNTDOWN_SELECTOR);
+    const overlay = ensureOverlay();
+
+    if (!banner || !countdownEl) return; // nada que hacer, pero evitamos errores silenciosos
+
+    const closeAtStr = banner.getAttribute('data-close-at') || DEADLINE_ISO;
+    const closeAt = parseDeadline(closeAtStr);
+
+    function tick(){
+      const now = Date.now();
+      const dist = closeAt.getTime() - now;
+    // const dist = -1; //Test de cierre
+      if (isNaN(dist)) {
+        // Si la fecha no se pudo interpretar, al menos mostramos copy fijo
+        countdownEl.textContent = '—';
+        return;
+      }
+
+      if (dist <= 0){
+        brickUI(overlay, banner, countdownEl);
+        clearInterval(timer);
+        return;
+      }
+
+      const days  = Math.floor(dist / (1000*60*60*24));
+      const hours = Math.floor((dist % (1000*60*60*24))/(1000*60*60));
+      const mins  = Math.floor((dist % (1000*60*60))/(1000*60));
+      const secs  = Math.floor((dist % (1000*60))/1000);
+
+      countdownEl.textContent = `${days}d ${pad(hours)}h ${pad(mins)}m ${pad(secs)}s`;
+    }
+
+    tick();
+    const timer = setInterval(tick, 1000);
+  }
+})();
+</script>
+
+
 <body>
     <div class="bg-pattern"></div>
     
@@ -451,6 +650,28 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Deadline Banner -->
+    <section id="deadline-banner" class="deadline-banner" 
+            data-close-at="2025-08-20T23:59:59-05:00" aria-live="polite">
+    <div class="deadline-inner">
+        <span class="deadline-text">📣 Convocatoria se cierra el <strong>20 de agosto de 2025</strong></span>
+        <span class="countdown" id="countdown">Cargando…</span>
+    </div>
+    </section>
+
+    <!-- Overlay de cierre -->
+    <div id="closed-overlay" class="closed-overlay" aria-hidden="true">
+    <div class="closed-card" role="dialog" aria-labelledby="closed-title" aria-describedby="closed-desc">
+        <h3 id="closed-title">🙌 ¡Gracias por aplicar!</h3>
+        <p id="closed-desc">
+        La convocatoria <strong>2025-2</strong> ha cerrado. 
+        Estaremos revisando aplicaciones y contactando a las personas preseleccionadas por correo.
+        </p>
+        <p class="small-hint">Síguenos en nuestras redes para futuras convocatorias.</p>
+    </div>
+    </div>
+
 
     <section class="hero">
         <div class="hero-content">
