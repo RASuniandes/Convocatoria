@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAS Uniandes - Únete 2025-2</title>
+    <title>RAS Uniandes - Únete 2026-1</title>
     <style>
         * {
             margin: 0;
@@ -12,63 +13,52 @@
         }
 
         :root {
-            --gold-primary: #FAAE1F;
-            --gold-secondary: #FDC025;
-            --gold-accent: #FFCD24;
-            --black-primary: #000015;
-            --black-secondary: #000000;
-            --ieee-burgundy: #C1003A;
-            --ieee-purple: #5F2167;
-            --white: #ffffff;
-            --gray-light: #f8f9fa;
+            --led-green: #00ff41;
+            --led-green-dim: #00aa2a;
+            --led-green-bright: #33ff66;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a1a;
+            --dark-tertiary: #2a2a2a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap');
 
         body {
-            font-family: 'Space Grotesk', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--black-primary);
-            color: var(--white);
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Animated background circuit pattern */
-        .bg-pattern {
+        /* Matrix rain background effect */
+        .matrix-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.03;
             pointer-events: none;
-            background-image: 
-                linear-gradient(90deg, var(--gold-primary) 1px, transparent 1px),
-                linear-gradient(0deg, var(--gold-primary) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: circuitMove 20s linear infinite;
-            z-index: -1;
+            z-index: 0;
+            opacity: 0.03;
         }
 
-        @keyframes circuitMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Navigation */
-        nav {
+        /* LED Matrix Header */
+        .led-header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 21, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            background: #000;
+            padding: 0.5rem 0;
             z-index: 1000;
-            border-bottom: 1px solid var(--gold-primary);
+            border-bottom: 2px solid var(--led-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
         }
 
-        .nav-container {
-            max-width: 1200px;
+        .led-header-content {
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -76,204 +66,297 @@
             align-items: center;
         }
 
-        .logo {
+        .led-logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.3rem;
             font-weight: bold;
-            color: var(--gold-primary);
+            color: var(--led-green);
+            text-shadow: 0 0 10px var(--led-green);
             text-decoration: none;
         }
 
-        .logo-img {
-            height: 40px;
-        }
-
-        .nav-links {
+        .led-nav {
             display: flex;
             gap: 2rem;
             list-style: none;
         }
 
-        .nav-links a {
-            color: var(--white);
+        .led-nav a {
+            color: var(--led-green);
             text-decoration: none;
-            transition: color 0.3s;
+            font-family: 'Share Tech Mono', monospace;
+            transition: all 0.3s;
+            text-shadow: 0 0 5px var(--led-green);
         }
 
-        .nav-links a:hover {
-            color: var(--gold-primary);
+        .led-nav a:hover {
+            color: var(--led-green-bright);
+            text-shadow: 0 0 15px var(--led-green-bright);
         }
 
-        /* Hero Section */
-        .hero {
+        /* Hero Section with Robot Banner */
+        .hero-banner {
+            position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
-            background: linear-gradient(135deg, var(--black-primary) 0%, var(--ieee-purple) 100%);
+            justify-content: center;
+            background: #000;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1) 0%, rgba(0, 0, 0, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .hero-robot-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            filter: brightness(0.4);
         }
 
         .hero-content {
+            position: relative;
+            z-index: 2;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            padding: 3rem;
+            text-align: center;
         }
 
-        .hero-text h1 {
+        .hero-content h1 {
             font-family: 'Orbitron', monospace;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            margin-bottom: -1rem;
-            background: linear-gradient(45deg, var(--gold-primary), var(--gold-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-top: 4rem
+            color: var(--led-green);
+            text-shadow: 0 0 20px var(--led-green), 0 0 40px var(--led-green);
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        .hero-text .subtitle {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.2rem;
-            color: var(--gold-secondary);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
-        .hero-text .description {
-            font-size: 1.1rem;
+        .hero-content .subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--led-green-dim);
             margin-bottom: 2rem;
-            line-height: 1.7;
+            text-shadow: 0 0 10px var(--led-green-dim);
         }
 
-        .cta-button {
-            background: linear-gradient(45deg, var(--gold-primary), var(--gold-accent));
-            color: var(--black-primary);
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
+        .hero-content .description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Countdown Timer */
+        .countdown-container {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid var(--led-green);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 3rem auto;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+        }
+
+        .countdown-title {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--led-green);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--led-green);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-size: 3rem;
             font-weight: bold;
+            color: var(--led-green);
+            text-shadow: 0 0 15px var(--led-green);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--led-green-dim);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            background: var(--led-green);
+            color: #000;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
             border: none;
-            border-radius: 50px;
+            border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
             display: inline-block;
-            text-align: center;
+            box-shadow: 0 0 20px var(--led-green);
         }
 
         .cta-button:hover {
+            background: var(--led-green-bright);
+            box-shadow: 0 0 40px var(--led-green-bright);
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(250, 174, 31, 0.3);
-        }
-
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .logo-visual {
-            width: 350px;
-            height: 350px;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 20px 40px rgba(250, 174, 31, 0.3));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
         }
 
         /* Section Styling */
         .section {
-            padding: 5rem 0;
-            max-width: 1200px;
+            padding: 5rem 2rem;
+            max-width: 1400px;
             margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .section h2 {
             font-family: 'Orbitron', monospace;
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             text-align: center;
-            color: var(--gold-primary);
-        }
-
-        /* Philosophy Section */
-        .philosophy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .principle-card {
-            background: linear-gradient(135deg, rgba(95, 33, 103, 0.1), rgba(193, 0, 58, 0.1));
-            border: 1px solid var(--gold-primary);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .principle-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(250, 174, 31, 0.2);
-        }
-
-        .principle-card h3 {
-            font-family: 'Orbitron', monospace;
-            color: var(--gold-primary);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            font-weight: 700;
+            color: var(--led-green);
+            text-shadow: 0 0 15px var(--led-green);
         }
 
         /* SWARM Project Section */
-        .swarm-section {
-            background: linear-gradient(135deg, rgba(193, 0, 58, 0.1), rgba(95, 33, 103, 0.1));
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 3rem 0;
-        }
-
-        .swarm-content {
+        .swarm-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            align-items: center;
+            align-items: start;
+            margin-top: 2rem;
         }
 
-        .swarm-video {
-            background: var(--black-secondary);
-            border-radius: 15px;
+        .swarm-info {
+            background: var(--dark-secondary);
             padding: 2rem;
-            text-align: center;
-            border: 2px solid var(--gold-primary);
+            border-radius: 10px;
+            border: 1px solid var(--led-green);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
         }
 
-        .video-placeholder {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(45deg, var(--ieee-burgundy), var(--ieee-purple));
+        .swarm-info h3 {
+            color: var(--led-green);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .swarm-info h4 {
+            color: var(--led-green-dim);
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .swarm-info p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .swarm-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .swarm-info li {
+            margin: 0.7rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .swarm-info li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--led-green);
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--led-green);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-family: 'Share Tech Mono', monospace;
+            border: 1px solid var(--led-green);
+            margin: 0.5rem 0;
+        }
+
+        .phase-container {
+            background: rgba(0, 255, 65, 0.05);
+            padding: 1.5rem;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--led-green);
+        }
+
+        /* Roadmap */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .roadmap-card {
+            background: var(--dark-secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--led-green);
+            transition: all 0.3s;
+        }
+
+        .roadmap-card:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .roadmap-card h3 {
+            color: var(--led-green);
+            font-family: 'Orbitron', monospace;
             margin-bottom: 1rem;
         }
 
-        /* Engineering Areas */
+        /* Areas Grid */
         .areas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -282,150 +365,89 @@
         }
 
         .area-card {
-            background: linear-gradient(135deg, var(--black-secondary), var(--ieee-purple));
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 2px solid transparent;
+            background: var(--dark-secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--led-green);
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .area-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold-primary), var(--gold-accent));
         }
 
         .area-card:hover {
-            border-color: var(--gold-primary);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(250, 174, 31, 0.15);
         }
 
         .area-card h3 {
+            color: var(--led-green);
             font-family: 'Orbitron', monospace;
-            color: var(--gold-primary);
-            font-size: 1.5rem;
-            font-weight: 700;
             margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .area-card h4 {
+            color: var(--led-green-dim);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
         }
 
         .skills-list {
             list-style: none;
+            padding: 0;
         }
 
         .skills-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(250, 174, 31, 0.2);
-            transition: all 0.3s;
-        }
-
-        .skills-list li:hover {
-            color: var(--gold-primary);
-            padding-left: 10px;
+            margin: 0.6rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
         }
 
         .skills-list li::before {
-            content: '▶';
-            margin-right: 0.75rem;
-            color: var(--gold-primary);
-            font-size: 0.8rem;
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--led-green);
         }
 
-        /* IEEE Logos Section */
-        .ieee-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            margin: 3rem 0;
-            flex-wrap: wrap;
+        /* Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 3rem auto;
         }
 
-        .ieee-logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .ieee-logo-main {
-            height: 80px;
-        }
-
-        .ieee-logo-internal {
-            height: 60px;
-        }
-
-        .logo-label {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            color: var(--gold-primary);
-            text-align: center;
-        }
-        .cta-section {
-            background: linear-gradient(135deg, var(--ieee-burgundy), var(--ieee-purple));
-            border-radius: 20px;
-            padding: 4rem;
-            text-align: center;
-            margin: 1rem 0;
-        }
-
-        /* CTA Section */
-        .cta-section h2 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: 1.2rem;
+        .timeline-item {
+            background: var(--dark-secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--led-green);
             margin-bottom: 2rem;
+        }
+
+        .timeline-item h4 {
+            color: var(--led-green);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 0.5rem;
         }
 
         /* Footer */
         footer {
-            background: var(--black-secondary);
-            padding: 3rem 0;
+            background: #000;
+            padding: 3rem 2rem;
             text-align: center;
-            border-top: 1px solid var(--gold-primary);
+            border-top: 2px solid var(--led-green);
+            margin-top: 5rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .swarm-content {
-                grid-template-columns: 1fr;
-            }
-
-            .areas-grid {
-                grid-template-columns: 1fr;
-            }
+        footer p {
+            color: var(--led-green-dim);
+            font-family: 'Share Tech Mono', monospace;
         }
 
-        /* Scroll animations */
+        /* Animation Classes */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease;
+            transition: all 0.6s ease-out;
         }
 
         .fade-in.visible {
@@ -433,405 +455,269 @@
             transform: translateY(0);
         }
 
-        /* Deadline banner */
-        .deadline-banner{
-        position: sticky; top: 64px; z-index: 900; /* debajo del nav fijo */
-        background: linear-gradient(90deg, var(--gold-primary), var(--gold-accent));
-        color: var(--black-primary);
-        border-bottom: 1px solid rgba(0,0,0,.15);
-        }
-        @media (max-width: 768px){ .deadline-banner{ top: 60px; } }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
 
-        .deadline-inner{
-        max-width: 1200px; margin: 0 auto; padding: .8rem 2rem;
-        display: flex; gap: 1rem; justify-content: space-between; align-items: center;
-        font-family: 'Orbitron', monospace; font-weight: 700;
-        }
-        .deadline-text strong{ text-decoration: underline; }
-        .countdown{
-        background: var(--white); color: var(--black-primary);
-        padding: .4rem .8rem; border-radius: 999px; font-variant-numeric: tabular-nums;
-        box-shadow: 0 6px 16px rgba(0,0,0,.12);
-        }
+            .swarm-grid {
+                grid-template-columns: 1fr;
+            }
 
-        /* Overlay cuando cierra */
-        .closed-overlay{
-        position: fixed; inset: 0; display: none; place-items: center;
-        backdrop-filter: blur(6px);
-        background: rgba(0,0,21,.65); z-index: 2000;
-        }
-        .closed-overlay.active{ display: grid; }
-        .closed-card{
-        max-width: 640px; margin: 2rem; text-align: center;
-        background: linear-gradient(135deg, rgba(95, 33, 103, 0.25), rgba(193, 0, 58, 0.25));
-        border: 1px solid var(--gold-primary); border-radius: 20px; padding: 2rem;
-        box-shadow: 0 20px 60px rgba(250,174,31,.25);
-        }
-        .closed-card h3{
-        font-family: 'Orbitron', monospace; color: var(--gold-primary); font-size: 1.6rem; margin-bottom: .75rem;
-        }
-        .closed-card p{ line-height: 1.7; }
-        .small-hint{ opacity:.9; margin-top: .75rem; font-size: .95rem; }
+            .countdown {
+                gap: 1rem;
+            }
 
-        /* Estado brick: desactiva interacciones */
-        .bricked *{
-        pointer-events: none !important;
-        }
-        .bricked #closed-overlay, .bricked .closed-overlay{
-        pointer-events: auto !important; /* el overlay sí recibe eventos */
-        }
+            .countdown-value {
+                font-size: 2rem;
+            }
 
+            .led-nav {
+                display: none;
+            }
 
+            .areas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-
-<script>
-(function () {
-  // === CONFIG ===
-  const DEADLINE_ISO = '2025-08-20T23:59:59-05:00'; // Hora Bogotá
-  const BANNER_SELECTOR = '#deadline-banner';
-  const COUNTDOWN_SELECTOR = '#countdown';
-  const OVERLAY_SELECTOR = '#closed-overlay';
-  const CTA_SELECTOR = '.cta-button';
-
-  // === HELPERS ===
-  function ensureBanner() {
-    let banner = document.querySelector(BANNER_SELECTOR);
-    if (!banner) {
-      // Si no existe, lo creamos y lo insertamos tras <nav> o al inicio del body
-      const after = document.querySelector('nav') || document.body.firstElementChild;
-      banner = document.createElement('section');
-      banner.id = 'deadline-banner';
-      banner.className = 'deadline-banner';
-      banner.setAttribute('data-close-at', DEADLINE_ISO);
-      banner.innerHTML = `
-        <div class="deadline-inner">
-          <span class="deadline-text">📣 Convocatoria se cierra el <strong>27 de agosto de 2025</strong></span>
-          <span class="countdown" id="countdown">Cargando…</span>
-        </div>`;
-      if (after && after.parentNode) after.parentNode.insertBefore(banner, after.nextSibling);
-      else document.body.prepend(banner);
-    }
-    // Si ya existía pero no tiene la fecha, se la ponemos
-    if (!banner.getAttribute('data-close-at')) banner.setAttribute('data-close-at', DEADLINE_ISO);
-    return banner;
-  }
-
-  function ensureOverlay() {
-    let overlay = document.querySelector(OVERLAY_SELECTOR);
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'closed-overlay';
-      overlay.className = 'closed-overlay';
-      overlay.setAttribute('aria-hidden', 'true');
-      overlay.innerHTML = `
-        <div class="closed-card" role="dialog" aria-labelledby="closed-title" aria-describedby="closed-desc">
-          <h3 id="closed-title">🙌 ¡Gracias por aplicar!</h3>
-          <p id="closed-desc">
-            La convocatoria <strong>2025-2</strong> ha cerrado.
-            Revisaremos las aplicaciones y contactaremos a las personas preseleccionadas por correo.
-          </p>
-          <p class="small-hint">Síguenos en nuestras redes para próximas convocatorias.</p>
-        </div>`;
-      document.body.appendChild(overlay);
-    }
-    return overlay;
-  }
-
-  function parseDeadline(str) {
-    // Acepta ISO con zona (-05:00) y hace fallback a UTC si el motor no la interpreta
-    const d = new Date(str);
-    if (!isNaN(d.getTime())) return d;
-
-    // Fallback robusto: construir a partir de componentes locales (YYYY-MM-DDTHH:mm:ss-05:00)
-    const m = str.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})([+-]\d{2}):?(\d{2})$/);
-    if (m) {
-      const [ , Y, Mo, Da, H, Mi, S, offH, offM ] = m;
-      // Convertimos a UTC corrigiendo offset
-      const offMinutes = parseInt(offH,10)*60 + (parseInt(offM,10) * Math.sign(parseInt(offH,10)));
-      const local = new Date(Date.UTC(+Y, +Mo-1, +Da, +H, +Mi, +S));
-      return new Date(local.getTime() - offMinutes*60*1000);
-    }
-    // Último recurso: tratarlo como local
-    return new Date(str.replace(/([+-]\d{2}):?(\d{2})$/, ''));
-  }
-
-  function pad(n){ return String(n).padStart(2,'0'); }
-
-  function brickUI(overlay, banner, countdownEl) {
-    // Deshabilitar CTAs
-    document.querySelectorAll(CTA_SELECTOR).forEach(btn => {
-      btn.setAttribute('aria-disabled','true');
-      btn.style.filter = 'grayscale(1) opacity(.6)';
-      btn.style.cursor = 'not-allowed';
-      btn.addEventListener('click', e => e.preventDefault());
-    });
-
-    // Overlay
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-
-    // Bloquear scroll e interacciones
-    document.body.classList.add('bricked');
-    document.body.style.overflow = 'hidden';
-
-    // Banner
-    const txt = banner.querySelector('.deadline-text');
-    if (txt) txt.innerHTML = '🚫 <strong>Convocatoria cerrada</strong>';
-    if (countdownEl) {
-      countdownEl.textContent = 'Convocatoria cerrada';
-      countdownEl.style.background = 'transparent';
-    }
-  }
-
-  // === MAIN ===
-  // Aseguramos DOM listo incluso si insertamos cosas
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', main);
-  } else {
-    main();
-  }
-
-  function main(){
-    const banner = ensureBanner();
-    const countdownEl = document.querySelector(COUNTDOWN_SELECTOR);
-    const overlay = ensureOverlay();
-
-    if (!banner || !countdownEl) return; // nada que hacer, pero evitamos errores silenciosos
-
-    const closeAtStr = banner.getAttribute('data-close-at') || DEADLINE_ISO;
-    const closeAt = parseDeadline(closeAtStr);
-
-    function tick(){
-      const now = Date.now();
-      const dist = closeAt.getTime() - now;
-    // const dist = -1; //Test de cierre
-      if (isNaN(dist)) {
-        // Si la fecha no se pudo interpretar, al menos mostramos copy fijo
-        countdownEl.textContent = '—';
-        return;
-      }
-
-      if (dist <= 0){
-        brickUI(overlay, banner, countdownEl);
-        clearInterval(timer);
-        return;
-      }
-
-      const days  = Math.floor(dist / (1000*60*60*24));
-      const hours = Math.floor((dist % (1000*60*60*24))/(1000*60*60));
-      const mins  = Math.floor((dist % (1000*60*60))/(1000*60));
-      const secs  = Math.floor((dist % (1000*60))/1000);
-
-      countdownEl.textContent = `${days}d ${pad(hours)}h ${pad(mins)}m ${pad(secs)}s`;
-    }
-
-    tick();
-    const timer = setInterval(tick, 1000);
-  }
-})();
-</script>
-
-
 <body>
-    <div class="bg-pattern"></div>
-    
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="https://github.com/RASuniandes/Convocatoria/raw/main/Imgs/RAS-LIGHTNormal.png" alt="IEEE RAS" class="logo-img">
-                RAS UNIANDES
-            </a>
-            <ul class="nav-links">
-                <li><a href="#about">Acerca</a></li>
-                <li><a href="#swarm">SWARM</a></li>
-                <li><a href="#areas">Áreas</a></li>
-                <li><a href="#join">Únete</a></li>
-            </ul>
+    <div class="matrix-bg"></div>
+
+    <!-- LED Matrix Header -->
+    <header class="led-header">
+        <div class="led-header-content">
+            <a href="#" class="led-logo">RAS UNIANDES</a>
+            <nav>
+                <ul class="led-nav">
+                    <li><a href="#about">NOSOTROS</a></li>
+                    <li><a href="#swarm">SWARM</a></li>
+                    <li><a href="#areas">ÁREAS</a></li>
+                    <li><a href="#join">ÚNETE</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Deadline Banner -->
-    <section id="deadline-banner" class="deadline-banner" 
-            data-close-at="2025-08-20T23:59:59-05:00" aria-live="polite">
-    <div class="deadline-inner">
-        <span class="deadline-text">📣 Convocatoria se cierra el <strong>20 de agosto de 2025</strong></span>
-        <span class="countdown" id="countdown">Cargando…</span>
-    </div>
-    </section>
-
-    <!-- Overlay de cierre -->
-    <div id="closed-overlay" class="closed-overlay" aria-hidden="true">
-    <div class="closed-card" role="dialog" aria-labelledby="closed-title" aria-describedby="closed-desc">
-        <h3 id="closed-title">🙌 ¡Gracias por aplicar!</h3>
-        <p id="closed-desc">
-        La convocatoria <strong>2025-2</strong> ha cerrado. 
-        Estaremos revisando aplicaciones y contactando a las personas preseleccionadas por correo.
-        </p>
-        <p class="small-hint">Síguenos en nuestras redes para futuras convocatorias.</p>
-    </div>
-    </div>
-
-
-    <section class="hero">
+    <!-- Hero Banner with Robot -->
+    <section class="hero-banner">
+        <img src="Imgs/RobotImg.png" alt="SWARM Robot" 
+             class="hero-robot-image">
         <div class="hero-content">
-            <div class="hero-text">
-                <h1>RAS UNIANDES</h1>
-                <p class="subtitle">Robotics and Automation Society</p>
-                <p class="description">
-                <strong>Somos el capítulo técnico de robótica y automatización de Los Andes.</strong> 
-                Desarrollamos tecnología de vanguardia con aplicaciones industriales reales, desde sistemas autónomos 
-                multiagente hasta arquitecturas ROS avanzadas. Nuestra misión es formar ingenieros que no solo dominen 
-                la teoría, sino que construyan soluciones que transformen sectores como logística, manufactura y 
-                entornos inteligentes.
-                <br><br>
-                <strong>¡Buscamos estudiantes de cualquier semestre y carrera!</strong> Especialmente de 
-                <span style="color: var(--gold-primary); font-weight: bold; font-family: 'Orbitron', monospace; font-size: 1.1em;">IMEC</span>, 
-                <span style="color: var(--gold-primary); font-weight: bold; font-family: 'Orbitron', monospace; font-size: 1.1em;">IELE/C</span>, e 
-                <span style="color: var(--gold-primary); font-weight: bold; font-family: 'Orbitron', monospace; font-size: 1.1em;">ISIS</span>. 
-                Ya sea que estudies ingeniería o vengas de otras disciplinas, valoramos experiencias diversas, ideas disruptivas y perspectivas únicas 
-                que enriquezcan nuestro desarrollo tecnológico.
-                <br><br>
-                Operamos bajo el lema IEEE: <em>"Advancing Technology for Humanity"</em> - creando un impacto 
-                medible tanto en el desarrollo académico como en la industria colombiana.
-                </p>
-                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=fAS9-kj_KkmLu4-YufucyqaB230CTXpHgSOdBqtgvTdUOFVQMU9CM1VHRjVDWjgzVVA2Q0pSQzRQWi4u" class="cta-button">ÚNETE AHORA 🚀</a>
-            </div>
-            <div class="hero-visual">
-                <img src="https://github.com/RASuniandes/Convocatoria/raw/main/Imgs/Cabra-Color.svg" alt="RAS Uniandes Logo" class="logo-visual">
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="section fade-in">
-
-
-        <h2>Pasión con Propósito</h2>
-        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem;">
-            Un nuevo paradigma para 2025: De la competencia a la industria
-        </p>
-        
-        <div class="philosophy-grid">
-            <div class="principle-card">
-                <h3>🔥 Pasión como Motor</h3>
-                <p>Solo trabajamos en proyectos que nos mueven profundamente. Sin pasión compartida, no hay colaboración forzada.</p>
-            </div>
-            <div class="principle-card">
-                <h3>🎯 Foco y Profundidad</h3>
-                <p>Un objetivo común, claro y ambicioso. Trabajamos y enfocamos nuestras energías en un solo proyecto. Profundidad sobre amplitud.</p>
-            </div>
-            <div class="principle-card">
-                <h3>📈 Progreso Demostrable</h3>
-                <p>Avances significativos semana a semana, y semestre a semestre. Evaluación continua de resultados.</p>
-            </div>
-            <div class="principle-card">
-                <h3>🎖️ Excelencia sobre Cantidad</h3>
-                <p>Preferimos especializarnos en un sólo proyecto de investigación y desarrollo, haciéndonos excelentes en esto.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="swarm" class="section fade-in">
-        <div class="swarm-section">
-            <h2 style="text-align: center; margin-bottom: 0.2rem;">Proyecto SWARM</h2>
-            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 3rem;">
-                Synchronized Warehouse Autonomous Robotics Management
+            <h1>PROYECTO SWARM</h1>
+            <p class="subtitle">Synchronized Warehouse Autonomous Robotics Management</p>
+            <p class="description">
+                Desarrolla tecnología robótica autónoma para logística inteligente. 
+                Investiga SLAM, navegación multi-robot y colaboración avanzada con ROS.
             </p>
-            
-            <div class="swarm-content">
-                <div>
-                    <h3 style="color: var(--gold-primary); margin-bottom: 1.5rem; font-family: 'Orbitron', monospace;">Robótica Logística del Futuro</h3>
-                    <p style="margin-bottom: 1.5rem;">
-                        <strong>SWARM es nuestro proyecto insignia de investigación aplicada</strong> para el desarrollo de prototipos 
-                        funcionales de robots autónomos en ambientes logísticos tipo bodega. Inspirados en el éxito revolucionario 
-                        de Amazon Robotics (Kiva Systems), buscamos crear soluciones escalables y accesibles para el contexto colombiano.
-                    </p>
-                    
-                    <h4 style="color: var(--gold-secondary); margin: 1.5rem 0 1rem 0;">Stack Tecnológico:</h4>
-                    <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Navegación SLAM</strong> avanzada con LiDAR</li>
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Arquitecturas ROS2</strong> para comunicación multiagente</li>
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Visión computacional</strong> con OpenCV para detección</li>
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Control embebido</strong> con ESP32/Arduino</li>
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Protocolos industriales</strong> CAN/UART</li>
-                        <li style="margin: 0.7rem 0;">🔹 <strong>Machine Learning</strong> aplicado a optimización de rutas</li>
-                    </ul>
 
-                    <h4 style="color: var(--gold-secondary); margin: 1.5rem 0 1rem 0;">Especificaciones Técnicas (Objetivo Industrial):</h4>
-                    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--gold-accent);">
-                        <em>*Actualmente desarrollando SWARM Mk1 (prototipo de navegación y colaboración)</em>
-                    </p>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin: 0.7rem 0;">⚙️ <strong>Meta:</strong> Capacidad de carga 150-200 kg</li>
-                        <li style="margin: 0.7rem 0;">⚙️ <strong>Meta:</strong> Autonomía energética optimizada</li>
-                        <li style="margin: 0.7rem 0;">⚙️ <strong>Meta:</strong> Comunicación inter-robot robusta</li>
-                        <li style="margin: 0.7rem 0;">⚙️ <strong>Meta:</strong> Interfaces humano-robot intuitivas</li>
-                        <li style="margin: 0.7rem 0;">⚙️ <strong>Meta:</strong> Arquitectura modular escalable</li>
-                    </ul>
+            <div class="countdown-container">
+                <div class="countdown-title">⏱ CIERRE DE CONVOCATORIA</div>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="days">--</div>
+                        <div class="countdown-label">DÍAS</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="hours">--</div>
+                        <div class="countdown-label">HORAS</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="minutes">--</div>
+                        <div class="countdown-label">MIN</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="seconds">--</div>
+                        <div class="countdown-label">SEG</div>
+                    </div>
                 </div>
-                <div class="swarm-video">
-                    <iframe 
-                        src="https://www.instagram.com/p/DK0eLOev8QJ/embed" 
-                        width="400" 
-                        height="500" 
-                        frameborder="0" 
-                        scrolling="no" 
-                        allowtransparency="true"
-                        style="border-radius: 10px; max-width: 100%;">
-                    </iframe>
-                    <p style="color: var(--gold-primary); font-weight: bold; margin-top: 1rem;">
-                        Progreso: SWARM MK1-I1 - Semestre 2025-1
+            </div>
+
+            <a href="https://forms.cloud.microsoft/r/eyxLMFCiab"
+               class="cta-button">
+                APLICAR AHORA
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section fade-in">
+        <h2>¿QUIÉNES SOMOS?</h2>
+        <div style="max-width: 900px; margin: 0 auto; background: var(--dark-secondary); padding: 3rem; border-radius: 15px; border: 1px solid var(--led-green);">
+            <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                <strong style="color: var(--led-green);">RAS Uniandes</strong> es el capítulo estudiantil de la 
+                <strong>IEEE Robotics and Automation Society</strong> en la Universidad de los Andes. 
+                Somos un equipo multidisciplinario dedicado a la investigación y desarrollo de tecnología robótica avanzada.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                Nuestro proyecto principal, <strong style="color: var(--led-green);">SWARM</strong>, busca desarrollar 
+                prototipos funcionales de robots autónomos para logística inteligente, implementando algoritmos de navegación SLAM, 
+                colaboración multi-robot e interfaces humano-robot con aplicabilidad industrial real.
+            </p>
+        </div>
+    </section>
+
+    <!-- SWARM Project Section -->
+    <section id="swarm" class="section fade-in">
+        <h2>PROYECTO SWARM</h2>
+        
+        <div class="swarm-grid">
+            <div class="swarm-info">
+                <h3>OVERVIEW</h3>
+                <p>
+                    El proyecto SWARM investiga arquitecturas mecánicas, electrónicas y de software basadas en 
+                    ROS y SLAM, orientadas a la colaboración y navegación multi-robot para gestión logística inteligente.
+                </p>
+
+                <div class="status-badge"> MK1 COMPLETADO</div>
+                <div class="status-badge">⚙ MK2 EN DESARROLLO</div>
+
+                <h4>METODOLOGÍA - TRES FASES:</h4>
+                
+                <div class="phase-container">
+                    <strong style="color: var(--led-green);">Fase I — Plataforma Robótica Base</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.95rem;">
+                        Desarrollo de plataforma confiable con herramientas mecánicas, electrónicas y de software, 
+                        adoptando arquitectura estándar con aplicabilidad industrial.
                     </p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                        Prueba de sensórica, sistema de cinemática y control remoto. 
+                </div>
+
+                <div class="phase-container">
+                    <strong style="color: var(--led-green);">Fase II — Autonomía Individual</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.95rem;">
+                        Implementación de algoritmos SLAM, reconocimiento visual (follow-me, evasión de obstáculos, 
+                        identificación ArUCO) para alcanzar autonomía "trasládate de A a B transportando objeto O".
+                    </p>
+                </div>
+
+                <div class="phase-container">
+                    <strong style="color: var(--led-green);">Fase III — Colaboración Multi-Robot</strong>
+                    <p style="margin-top: 0.5rem; font-size: 0.95rem;">
+                        Desarrollo de versiones replicables (MK2) para pruebas de consenso y colaboración entre 
+                        múltiples unidades idénticas.
                     </p>
                 </div>
             </div>
 
-            <div style="margin-top: 3rem; padding: 2rem; background: rgba(250, 174, 31, 0.1); border-radius: 15px;">
-                <h4 style="color: var(--gold-primary); margin-bottom: 1rem; font-family: 'Orbitron', monospace;">Roadmap SWARM 2025-2:</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-                    <div>
-                        <h5 style="color: var(--gold-secondary);">Mk1: Navegación & Colaboración</h5>
-                        <p style="font-size: 0.9rem;">Resolver obstáculos de navegación autónoma mediante simulacion y pruebas. Arquitectura fácilmente replicable.</p>
-                    </div>
-                    <div>
-                        <h5 style="color: var(--gold-secondary);">Mk2: Desarrollo Mecánico/Electrónico</h5>
-                        <p style="font-size: 0.9rem;">Mejorar el diseño físico del robot, confiabilidad hardware, integración de sensores industriales, y optimización energética.</p>
-                    </div>
-                    <div>
-                        <h5 style="color: var(--gold-secondary);">Mk3: Plataforma para colaboración </h5>
-                        <p style="font-size: 0.9rem;">Desarrollo de plataforma para explorar algoritmos avanzados en RViz, simulaciones multiagente, y validación de sistemas complejos.</p>
-                    </div>
+            <div class="swarm-info">
+                <h3>ESTADO ACTUAL</h3>
+                
+                <h4> MK1 ("Mark" 1) - COMPLETADO</h4>
+                <p style="font-size: 0.95rem; margin-bottom: 1rem;">
+                    Primera iteración funcionó como prueba de concepto para evaluar diseño mecánico, 
+                    electrónico y de software antes de versión más compleja.
+                </p>
+                <ul>
+                    <li>Recolección de datos ambientales mediante LiDAR</li>
+                    <li>Control remoto de movimiento</li>
+                    <li>Prevención de colisiones basada en distancia</li>
+                    <li>Materiales ligeros y económicos para iteración</li>
+                    <li>Sin capacidades de carga útil ni elevación (por diseño)</li>
+                </ul>
+
+                <h4 style="margin-top: 2rem;">⚙ MK2 - EN DESARROLLO</h4>
+                <p style="font-size: 0.95rem; margin-bottom: 1rem;">
+                    Mejoras en todos los frentes: mecánico, electrónico y de software.
+                </p>
+                <ul>
+                    <li>Mecanismo elevador tipo tijera</li>
+                    <li>Chasis estructural reforzado para cargas significativas</li>
+                    <li>PCBs compactas con mejoras de conectores y potencia</li>
+                    <li>Arquitectura ROS robusta, modular y documentada</li>
+                    <li>Mayor replicabilidad para experimentación multi-robot</li>
+                </ul>
+
+                <p style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 255, 65, 0.1); border-radius: 8px; font-size: 0.9rem;">
+                    <strong style="color: var(--led-green);">Objetivo semestral:</strong> 
+                    Culminar diseño MK2 con entregables parciales previstos para cierre de semestre 
+                    y ensamblaje completo estimado para inicios de 2026.
+                </p>
+            </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div style="margin-top: 4rem;">
+            <h3 style="color: var(--led-green); font-family: 'Orbitron', monospace; text-align: center; margin-bottom: 2rem; font-size: 2rem;">
+                ROADMAP 2026
+            </h3>
+            <div class="roadmap-grid">
+                <div class="roadmap-card">
+                    <h3>🔧 COMPLETAR MK2</h3>
+                    <p>
+                        Finalizar construcción del primer MK2 funcional. Validar mejoras mecánicas, 
+                        electrónicas y de software integradas desde lecciones del MK1.
+                    </p>
+                </div>
+                <div class="roadmap-card">
+                    <h3>🤖 PRUEBAS AUTÓNOMAS</h3>
+                    <p>
+                        Iniciar pruebas de navegación autónoma en entornos universitarios y escenarios 
+                        piloto industriales. Implementar SLAM y navegación visual completa.
+                    </p>
+                </div>
+                <div class="roadmap-card">
+                    <h3>🔗 MULTI-ROBOT</h3>
+                    <p>
+                        Fabricar unidades adicionales para desarrollo de algoritmos de consenso 
+                        y cooperación multi-robot. Consolidar bases para transferencia industrial.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Timeline -->
+    <section class="section fade-in">
+        <h2>TIMELINE 2026-1</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h4>📅 Febrero 2026</h4>
+                <p>Cierre de convocatoria y selección de nuevos miembros. Inicio de onboarding técnico.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>🔧 Marzo-Abril 2026</h4>
+                <p>Finalización del diseño MK2. Fabricación de primeras PCBs y componentes mecánicos.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>⚡ Mayo-Junio 2026</h4>
+                <p>Ensamblaje del primer MK2 completo. Inicio de pruebas de sistemas integrados.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>🤖 Julio+ 2026</h4>
+                <p>Pruebas de autonomía SLAM. Desarrollo de algoritmos de colaboración multi-robot.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Areas Section -->
     <section id="areas" class="section fade-in">
-        <h2>¿Qué Desarrollarás por Área?</h2>
-        <p style="text-align: center; font-size: 1.1rem; margin-bottom: 3rem; color: var(--gold-secondary);">
-            <strong>Estudiantes de cualquier semestre y carrera son bienvenidos.</strong> 
-            Sin embargo, acá hay un enfoque especial en ingeniería
+        <h2>¿QUÉ DESARROLLARÁS POR ÁREA?</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: var(--led-green-dim);">
+            <strong>Estudiantes de cualquier semestre y carrera son bienvenidos.</strong>
         </p>
         
         <div class="areas-grid">
             <div class="area-card">
                 <h3>🔧 Ingeniería Mecánica (IMEC)</h3>
-                <h4 style="color: var(--gold-secondary); margin-bottom: 1rem;">Habilidades Técnicas:</h4>
+                <h4>Habilidades Técnicas:</h4>
                 <ul class="skills-list">
                     <li>Diseño de chasis y cinemática avanzada</li>
-                    <li>Análisis estructural y optimización</li>
-                    <li>Diseño mecánico en Fusion 360 (Básico/Avanzado)</li>
-                    <li>Diseño mecánico en Inventor</li>
-                    <li>Análisis FEA y simulación</li>
+                    <li>Análisis estructural y optimización FEA</li>
+                    <li>Diseño mecánico en Fusion 360/Inventor</li>
                     <li>Prototipado rápido iterativo</li>
                     <li>Diseño para manufactura (DFM)</li>
                     <li>Impresión 3D (Cura, PrusaSlic3r)</li>
                     <li>Selección de actuadores para plataformas móviles</li>
                     <li>Optimización cinemática y dinámica</li>
+                    <li>Diseño de mecanismos elevadores</li>
                 </ul>
-                <h4 style="color: var(--gold-secondary); margin: 1.5rem 0 1rem 0;">Habilidades Blandas:</h4>
+                <h4>Habilidades Blandas:</h4>
                 <ul class="skills-list">
                     <li>Pensamiento sistémico para integración mecatrónica</li>
                     <li>Resolución creativa de problemas de diseño</li>
@@ -842,7 +728,7 @@
 
             <div class="area-card">
                 <h3>⚡ Ingeniería Electrónica (IELE)</h3>
-                <h4 style="color: var(--gold-secondary); margin-bottom: 1rem;">Habilidades Técnicas:</h4>
+                <h4>Habilidades Técnicas:</h4>
                 <ul class="skills-list">
                     <li>Diseño de PCBs industriales (KiCad Básico/Avanzado)</li>
                     <li>Sistemas embebidos de tiempo real</li>
@@ -853,9 +739,9 @@
                     <li>Integración de sensores (LiDAR, IMU, encoders)</li>
                     <li>Comunicaciones inter-robot robustas</li>
                     <li>Diseño de sistemas de distribución de potencia</li>
-                    <li>Integración de estándares industriales</li>
+                    <li>Estandarización de conectores y rutas de potencia</li>
                 </ul>
-                <h4 style="color: var(--gold-secondary); margin: 1.5rem 0 1rem 0;">Habilidades Blandas:</h4>
+                <h4>Habilidades Blandas:</h4>
                 <ul class="skills-list">
                     <li>Debugging avanzado y troubleshooting</li>
                     <li>Gestión de proyectos electrónicos complejos</li>
@@ -866,22 +752,22 @@
 
             <div class="area-card">
                 <h3>💻 Ingeniería de Sistemas (ISIS)</h3>
-                <h4 style="color: var(--gold-secondary); margin-bottom: 1rem;">Habilidades Técnicas:</h4>
+                <h4>Habilidades Técnicas:</h4>
                 <ul class="skills-list">
                     <li>Arquitecturas ROS/ROS2</li>
-                    <li>Programación fluida en Python</li>
-                    <li>Programación fluida en C++</li>
+                    <li>Programación fluida en Python y C++</li>
                     <li>Navegación y mapeo (SLAM)</li>
                     <li>Machine Learning aplicado a robótica</li>
                     <li>Computer Vision con OpenCV</li>
+                    <li>Identificación de fiduciarios ArUCO</li>
                     <li>Repositorios GitHub colaborativos</li>
                     <li>Arquitecturas distribuidas y microservicios</li>
                     <li>Control multiagente y coordinación</li>
                     <li>Algoritmos de planificación de rutas</li>
                     <li>Interfaces humano-robot (HRI)</li>
-                    <li>Simulaciones avanzadas y modelado</li>
+                    <li>Simulaciones avanzadas en RViz</li>
                 </ul>
-                <h4 style="color: var(--gold-secondary); margin: 1.5rem 0 1rem 0;">Habilidades Blandas:</h4>
+                <h4>Habilidades Blandas:</h4>
                 <ul class="skills-list">
                     <li>Liderazgo técnico y mentoría</li>
                     <li>Arquitectura de software escalable</li>
@@ -892,34 +778,68 @@
         </div>
     </section>
 
+    <!-- Join Section -->
     <section id="join" class="section fade-in">
-        <div class="cta-section">
-            <h2>🚀 Únete a RAS 2025-2</h2>
-            <p>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; background: var(--dark-secondary); padding: 4rem 3rem; border-radius: 15px; border: 2px solid var(--led-green); box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);">
+            <h2 style="margin-bottom: 1.5rem;">ÚNETE A RAS 2026-1</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">
                 ¿Tienes pasión genuina por la robótica? ¿Buscas desarrollar tecnología real con impacto?
             </p>
-            <p style="margin-bottom: 3rem;">
+            <p style="font-size: 1.1rem; margin-bottom: 3rem; color: var(--led-green);">
                 <strong>Buscamos autonomía, compromiso y resiliencia ante desafíos técnicos.</strong>
             </p>
-            <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=fAS9-kj_KkmLu4-YufucyqaB230CTXpHgSOdBqtgvTdUOFVQMU9CM1VHRjVDWjgzVVA2Q0pSQzRQWi4u" class="cta-button">
+            <a href="https://forms.cloud.microsoft/r/eyxLMFCiab" 
+               class="cta-button">
                 APLICAR AHORA
             </a>
-            <p style="margin-top: 2rem; font-size: 0.9rem;">
+            <p style="margin-top: 2rem; font-size: 1rem; color: var(--text-secondary);">
                 <strong>Todas las carreras y semestres pueden participar</strong> - Buscamos diversidad de perspectivas
             </p>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="section">
-            <p>&copy; 2025 RAS Uniandes - IEEE Robotics and Automation Society</p>
-            <p style="margin-top: 1rem; color: var(--gold-primary);">
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">© 2026 RAS Uniandes - IEEE Robotics and Automation Society</p>
+            <p style="color: var(--led-green); font-size: 1rem;">
                 "Advancing Technology for Humanity"
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                📧 RAS@uniandes.edu.co
             </p>
         </div>
     </footer>
 
     <script>
+        // Countdown Timer - Set to February 4, 2026 at 23:59:59
+        const countdownDate = new Date('February 4, 2026 23:59:59').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
         // Scroll animation
         const observerOptions = {
             threshold: 0.1,
@@ -943,11 +863,50 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
+        });
+
+        // Matrix rain effect (simple version)
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const matrixBg = document.querySelector('.matrix-bg');
+        matrixBg.appendChild(canvas);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const columns = Math.floor(canvas.width / 20);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#94deb7';
+            ctx.font = '15px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                ctx.fillText(text, i * 20, drops[i] * 20);
+
+                if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
