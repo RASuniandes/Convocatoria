@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown - Recomendaciones para organizar su tiempo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #0f0;
+            padding-bottom: 10px;
+        }
+
+        .current-time {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #0f0;
+        }
+
+        .event {
+            margin-bottom: 30px;
+            border: 1px solid #0f0;
+            padding: 15px;
+            position: relative;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #0ff;
+        }
+
+        .event-time {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .countdown {
+            font-size: 2rem;
+            margin-top: 10px;
+            color: #ff0;
+            font-weight: bold;
+        }
+
+        .countdown.urgent {
+            color: #f00;
+            animation: blink 1s infinite;
+        }
+
+        .countdown.passed {
+            color: #666;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            margin-left: 10px;
+            font-size: 0.8rem;
+            border: 1px solid;
+        }
+
+        .status.active {
+            color: #0f0;
+            border-color: #0f0;
+        }
+
+        .status.upcoming {
+            color: #ff0;
+            border-color: #ff0;
+        }
+
+        .status.done {
+            color: #666;
+            border-color: #666;
+        }
+
+        .schedule-item {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .blink-cursor {
+            animation: blink-cursor 1s infinite;
+        }
+
+        @keyframes blink-cursor {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>>>> RECOMENDACIONES PARA ORGANIZAR SU TIEMPO <span class="blink-cursor">_</span></h1>
+        
+        <div class="current-time">
+            <div>TIEMPO ACTUAL (COLOMBIA): <span id="current-time"></span></div>
+            <div style="color: #ff0; font-size: 0.9rem; margin-top: 10px;">* Horarios ajustados con +25 minutos adicionales</div>
+        </div>
+
+        <div class="event" id="event1">
+            <div class="event-title">
+                [1] CIERRE DE IDEACIÓN <span class="status upcoming" id="status1">PRÓXIMO</span>
+            </div>
+            <div class="event-time">DUE: 18:30 (6:30 PM)</div>
+            <div class="countdown" id="countdown1">--:--:--</div>
+        </div>
+
+        <div class="event" id="event2">
+            <div class="event-title">
+                [2] DESPLAZAMIENTO A 5TO PISO ML <span class="status upcoming" id="status2">PRÓXIMO</span>
+            </div>
+            <div class="event-time">18:30 - 18:40 (6:30 PM - 6:40 PM)</div>
+            <div class="countdown" id="countdown2">--:--:--</div>
+        </div>
+
+        <div class="event" id="event3">
+            <div class="event-title">
+                [3] PERFECCIONAMIENTO DE PRESENTACIONES Y PITCH <span class="status upcoming" id="status3">PRÓXIMO</span>
+            </div>
+            <div class="event-time">18:40 - 19:25 (6:40 PM - 7:25 PM) <span style="color: #ff0; font-size: 0.9rem;">*AJUSTADO +25min</span></div>
+            <div class="schedule-item">>>> Pitch de 5 minutos</div>
+            <div class="countdown" id="countdown3">--:--:--</div>
+        </div>
+
+        <div class="event" id="event4">
+            <div class="event-title">
+                [4] INICIO PITCHES <span class="status upcoming" id="status4">PRÓXIMO</span>
+            </div>
+            <div class="event-time">19:30 (7:30 PM) <span style="color: #ff0; font-size: 0.9rem;">*AJUSTADO +25min</span></div>
+            <div class="countdown" id="countdown4">--:--:--</div>
+        </div>
+    </div>
+
+    <script>
+        // Colombia timezone offset (UTC-5)
+        function getColombiaTime() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const colombiaTime = new Date(utc + (3600000 * -5));
+            return colombiaTime;
+        }
+
+        function formatTime(date) {
+            return date.toLocaleTimeString('es-CO', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: false 
+            });
+        }
+
+        function getCountdown(targetHour, targetMinute) {
+            const now = getColombiaTime();
+            const target = new Date(now);
+            target.setHours(targetHour, targetMinute, 0, 0);
+
+            // If target time has passed today, it might be for tomorrow
+            if (target < now) {
+                // Check if it's within reasonable time (not showing tomorrow's countdown)
+                const diff = now - target;
+                if (diff > 3600000) { // more than 1 hour past
+                    return null; // Event has clearly passed
+                }
+            }
+
+            const diff = target - now;
+            
+            if (diff < 0) {
+                return { passed: true, time: 0 };
+            }
+
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff % 3600000) / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+
+            return {
+                passed: false,
+                hours: hours,
+                minutes: minutes,
+                seconds: seconds,
+                totalMs: diff
+            };
+        }
+
+        function updateCountdowns() {
+            const now = getColombiaTime();
+            document.getElementById('current-time').textContent = formatTime(now);
+
+            const events = [
+                { id: 1, hour: 18, minute: 30, endHour: null },
+                { id: 2, hour: 18, minute: 30, endHour: 18, endMinute: 40 },
+                { id: 3, hour: 18, minute: 40, endHour: 19, endMinute: 25 },
+                { id: 4, hour: 19, minute: 30, endHour: null }
+            ];
+
+            events.forEach(event => {
+                const countdown = getCountdown(event.hour, event.minute);
+                const countdownEl = document.getElementById(`countdown${event.id}`);
+                const statusEl = document.getElementById(`status${event.id}`);
+                
+                if (!countdown || countdown.passed) {
+                    // Check if we're in the event window
+                    if (event.endHour) {
+                        const endCountdown = getCountdown(event.endHour, event.endMinute);
+                        if (endCountdown && !endCountdown.passed) {
+                            countdownEl.textContent = 'EN CURSO';
+                            countdownEl.className = 'countdown active';
+                            statusEl.textContent = 'ACTIVO';
+                            statusEl.className = 'status active';
+                            return;
+                        }
+                    }
+                    countdownEl.textContent = 'COMPLETADO';
+                    countdownEl.className = 'countdown passed';
+                    statusEl.textContent = 'COMPLETADO';
+                    statusEl.className = 'status done';
+                } else {
+                    const timeStr = `${String(countdown.hours).padStart(2, '0')}:${String(countdown.minutes).padStart(2, '0')}:${String(countdown.seconds).padStart(2, '0')}`;
+                    countdownEl.textContent = timeStr;
+                    
+                    if (countdown.totalMs < 300000) { // Less than 5 minutes
+                        countdownEl.className = 'countdown urgent';
+                        statusEl.textContent = '¡URGENTE!';
+                        statusEl.className = 'status active';
+                    } else {
+                        countdownEl.className = 'countdown';
+                        statusEl.textContent = 'PRÓXIMO';
+                        statusEl.className = 'status upcoming';
+                    }
+                }
+            });
+        }
+
+        // Update every second
+        updateCountdowns();
+        setInterval(updateCountdowns, 1000);
+    </script>
+</body>
+</html>
